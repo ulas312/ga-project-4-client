@@ -43,9 +43,12 @@ const Register = () => {
   const navigate = useNavigate();
   const [formFields, setFormFields] = useState({
     email: '',
+    first_name: '',
+    last_name: '',
     username: '',
     password: '',
     passwordConfirmation: '',
+    profile_image: '',
   });
   const [file, setFile] = useState('');
   const [error, setError] = useState(false);
@@ -71,7 +74,7 @@ const Register = () => {
 
       const apiReqBody = {
         ...formFields,
-        cloudinaryImageId: cloudinaryResponse.data.public_id,
+        profile_image: cloudinaryResponse.data.public_id,
       };
 
       await API.POST(API.ENDPOINTS.register, apiReqBody);
@@ -140,8 +143,8 @@ const Register = () => {
                   <TextField
                     className='textfield'
                     size='small'
-                    name='profile-picture'
-                    id='profile-picture'
+                    name='profile_image'
+                    id='profile_image'
                     type='file'
                     onChange={handleFileChange}
                     sx={{ mb: 2 }}
@@ -149,27 +152,30 @@ const Register = () => {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    onChange={handleChange}
                     autoComplete='given-name'
-                    name='firstName'
+                    name='first_name'
                     required
                     fullWidth
-                    id='firstName'
+                    id='first_name'
                     label='First Name'
                     autoFocus
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
+                    onChange={handleChange}
                     required
                     fullWidth
-                    id='lastName'
+                    id='last_name'
                     label='Last Name'
-                    name='lastName'
+                    name='last_name'
                     autoComplete='family-name'
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    onChange={handleChange}
                     required
                     fullWidth
                     id='username'
@@ -180,6 +186,7 @@ const Register = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    onChange={handleChange}
                     required
                     fullWidth
                     id='email'
@@ -190,10 +197,11 @@ const Register = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    onChange={handleChange}
                     required
                     fullWidth
                     name='password'
-                    label='password Confirmation'
+                    label='Password'
                     type='password'
                     id='password'
                     autoComplete='new-password'
@@ -201,12 +209,13 @@ const Register = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
+                    onChange={handleChange}
                     required
                     fullWidth
-                    name='password'
-                    label='Password'
+                    name='password_confirmation'
+                    label='Password Confirmation'
                     type='password'
-                    id='password'
+                    id='password_confirmation'
                     autoComplete='new-password'
                   />
                 </Grid>

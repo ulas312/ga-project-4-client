@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AUTH } from '../lib/auth';
 import {
   TextField,
   Container,
@@ -25,50 +26,62 @@ export default function Upload() {
     cover_image: '',
     owner: '',
   });
-  const [error, setError] = useState(false);
-  const [availableBrands, setAvailableBrands] = useState([]);
 
-  useEffect(() => {
-    API.GET(API.ENDPOINTS.allBrands)
-      .then(({ data }) => setAvailableBrands(data))
-      .catch((e) => console.log(e));
-  }, []);
-
+  const [error, setError] = useState('');
+  const [file, setFile] = useState(null);
+  const [brands, setBrands] = useState([]);
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleFileChange = (e) => setFile(e.target.files[0]);
+  console.log(formData);
 
-    const data = formData.brewery
-      ? formData
-      : {
-          name: formData.name,
-          description: formData.description,
-          type: formData.type,
-          strength: formData.strength,
-          image: formData.image,
-        };
-
-    API.POST(API.ENDPOINTS.allBeers, data, API.getHeaders())
-      .then(({ data }) => {
-        navigate(`/crafty-beers/${data._id}`);
-      })
-      .catch((e) => {
-        if (e.status === 301) {
-          setError(true);
-        }
-        console.log(e);
-      });
-  };
+  useEffect(() => {
+    API.GET(API.ENDPOINTS.allBrands).then(({ data }) => {
+      setBrands(data);
+    });
+  }, []);
 
   return (
     <Container
       maxWidth='lg'
       sx={{ display: 'flex', justifyContent: 'center', pt: 5 }}
     >
-      <form onSubmit={handleSubmit}>
+      <form>
+        <Box sx={{ mb: 2 }}>
+          <FormControl fullWidth>
+            <InputLabel id='sneakerBrands'>Brand</InputLabel>
+            <Select
+              size='small'
+              labelId='brands'
+              value={formData.brand}
+              label='Brand'
+              onChange={handleChange}
+              name='brand'
+            >
+              <MenuItem value=''>None</MenuItem>
+              {brands.map((brand) => (
+                <MenuItem value={brand.brand_name} key={brand.id}>
+                  {brand.brand_name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
+
+        <Box sx={{ mb: 2 }}>
+          <TextField
+            size='small'
+            type='text'
+            value={formData.model}
+            onChange={handleChange}
+            error={error}
+            label='Model'
+            name='model'
+          />
+        </Box>
+
         <Box sx={{ mb: 2 }}>
           <TextField
             size='small'
@@ -80,71 +93,81 @@ export default function Upload() {
             name='name'
           />
         </Box>
+
         <Box sx={{ mb: 2 }}>
           <TextField
             size='small'
             type='text'
-            value={formData.description}
+            value={formData.colorway}
             onChange={handleChange}
             error={error}
-            label='Description'
-            name='description'
+            label='Colorway'
+            name='colorway'
           />
         </Box>
+
         <Box sx={{ mb: 2 }}>
           <TextField
             size='small'
             type='text'
-            value={formData.type}
+            value={formData.size}
             onChange={handleChange}
             error={error}
-            label='Type'
-            name='type'
+            label='Size'
+            name='size'
           />
         </Box>
+
+        <Box sx={{ mb: 2 }}>
+          <TextField
+            size='small'
+            type='text'
+            value={formData.release_year}
+            onChange={handleChange}
+            error={error}
+            label='Released year'
+            name='release_year'
+          />
+        </Box>
+
+        <Box sx={{ mb: 2 }}>
+          <TextField
+            size='small'
+            type='text'
+            value={formData.retail_price}
+            onChange={handleChange}
+            error={error}
+            label='RRP'
+            name='retail_price'
+          />
+        </Box>
+
+        <Box sx={{ mb: 2 }}>
+          <TextField
+            className='textfield'
+            size='small'
+            name='profile_image'
+            id='profile_image'
+            type='file'
+            error={error}
+            onChange={handleFileChange}
+            // sx={{ mb: 2 }}
+          />
+        </Box>
+
         <Box sx={{ mb: 2 }}>
           <TextField
             size='small'
             type='number'
-            value={formData.strength}
+            value={formData.owner}
             onChange={handleChange}
             error={error}
-            label='Strength'
-            name='strength'
+            label='Posted by:'
+            name='owner'
           />
         </Box>
-        <Box sx={{ mb: 2 }}>
-          <TextField
-            size='small'
-            type='text'
-            value={formData.image}
-            onChange={handleChange}
-            error={error}
-            label='Image'
-            name='image'
-          />
-        </Box>
-        <Box>
-          <FormControl fullWidth>
-            <InputLabel id='brand'>Brand</InputLabel>
-            <Select
-              size='small'
-              labelId='brand'
-              value={formData.brand}
-              label='Brand'
-              name='brand'
-              onChange={handleChange}
-            >
-              <MenuItem value=''>None</MenuItem>
-              {availableBrands.map((brand) => (
-                <MenuItem key={brand._id} value={brand._id}>
-                  {brand.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-        <Button type='submit'>Add My Sneaker</Button>
+
+        <Button type='submit'>Upload Sneaker</Button>
       </form>
     </Container>
   );

@@ -4,11 +4,11 @@ import { AUTH } from './auth';
 const ENDPOINTS = {
   allBrands: `/api/brands/`,
 
-  singleBrand: (id) => `/api/brands/${id}`,
+  singleBrand: (id) => `/api/brands/${id}/`,
 
-  allModels: `/api/sneakerModels/`,
+  allModels: `/api/sneaker-models/`,
 
-  singleModel: (id) => `/api/sneaker-models/${id}`,
+  singleModel: (id) => `/api/sneaker-models/${id}/`,
 
   getComments: (id) => `/api/comments/`,
 
@@ -16,7 +16,7 @@ const ENDPOINTS = {
 
   register: `/api/auth/register/`,
 
-  search: (query) => `/api/brands/search?search=${query}`,
+  search: (query) => `/api/brands/search?search=${query}/`,
 
   cloudinary: `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload`,
 };

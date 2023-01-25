@@ -1,11 +1,25 @@
+import * as React from 'react';
 import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { API } from '../lib/api';
 // import BeerRatings from './common/BeerRatings';
 // import { useAuthenticated } from '../hooks/useAuthenticated';
 
+import { styled } from '@mui/material/styles';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import ShareIcon from '@mui/icons-material/Share';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 import {
   Container,
+  Card,
+  Grid,
+  CardHeader,
+  CardMedia,
+  Collapse,
+  Paper,
+  Avatar,
+  IconButton,
   Box,
   CardContent,
   Typography,
@@ -13,21 +27,33 @@ import {
   Button,
 } from '@mui/material';
 
-// import '../styles/CraftyBeers.scss';
+import '../styles/Sneaker.scss';
 // import ReviewCard from './common/ReviewCard';
 import { AUTH } from '../lib/auth';
+
+const Item = styled(Paper)(({ theme }) => ({
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
 export default function Sneakers() {
   // const [isLoggedIn] = useAuthenticated();
   const { id } = useParams();
   const navigate = useNavigate();
-  const [singleBeer, setSingleBeer] = useState(null);
+  const [singleSneaker, setSingleSneaker] = useState(null);
   const [isUpdated, setIsUpdated] = useState(false);
 
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
   useEffect(() => {
-    API.GET(API.ENDPOINTS.sneakerModels(id))
+    API.GET(API.ENDPOINTS.singleModel(id))
       .then(({ data }) => {
-        setSingleBeer(data);
+        setSingleSneaker(data);
       })
       .catch(({ message, response }) => {
         console.error(message, response);
@@ -35,70 +61,158 @@ export default function Sneakers() {
     setIsUpdated(false);
   }, [id, isUpdated]);
 
-  // const goToIndex = () => navigate('/crafty-beers');
-
-  // const userHasReviewed = useMemo(() => {
-  //   return singleBeer?.reviews
-  //     .map((review) => review.reviewer._id)
-  //     .some((id) => AUTH.isOwner(id));
-  // }, [singleBeer]);
+  console.log(singleSneaker);
 
   return (
     <>
-      <Container
-        maxWidth='lg'
-        sx={{ display: 'flex' }}
-        className='CraftyBeerShow'
-      >
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={0}>
+          <Grid container xs={10} md={7} lg={8} spacing={0}>
+            <Grid xs={10} lg={3}>
+              <Item>
+                <Box>
+                  <img
+                    className='sneakerImg'
+                    src={singleSneaker?.cover_image}
+                    alt={singleSneaker?.name}
+                  />
+                </Box>
+              </Item>
+            </Grid>
+            <Grid xs={6} lg={3}>
+              <Item>
+                <CardHeader
+                  avatar={<Avatar sx={{}} aria-label=''></Avatar>}
+                  action={
+                    <IconButton aria-label='settings'>
+                      <MoreVertIcon />
+                    </IconButton>
+                  }
+                  title={singleSneaker?.owner.username}
+                  subheader='January 25, 2023'
+                />
+                <CardContent>
+                  <Typography variant='body2' color='text.secondary'>
+                    {singleSneaker?.brand[0].brand_name}
+                  </Typography>
+                  <Typography variant='h5' component='p'>
+                    {singleSneaker?.model}
+                  </Typography>
+                  <Typography color='text.secondary'>
+                    {singleSneaker?.name}
+                  </Typography>
+                </CardContent>
+                <CardActions disableSpacing>
+                  <IconButton aria-label='add to favorites'>
+                    <FavoriteIcon />
+                  </IconButton>
+                  <IconButton aria-label='share'>
+                    <ShareIcon />
+                  </IconButton>
+                </CardActions>
+                <CardContent>
+                  <Typography color='text.primary' paragraph gutterBottom>
+                    Color:&ensp;{singleSneaker?.colorway}
+                  </Typography>
+                  <Typography color='text.secondary'>
+                    Size UK:&ensp;{singleSneaker?.size}
+                  </Typography>
+                  <Typography color='text.secondary'>
+                    Released:&ensp;{singleSneaker?.release_year}
+                  </Typography>
+                  <Typography color='text.secondary'>
+                    RRP £:&ensp;{singleSneaker?.retail_price}
+                  </Typography>
+                  <Typography paragraph>Comments</Typography>
+                </CardContent>
+              </Item>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Box>
+      {/* <Card sx={{ maxWidth: 800 }}>
+        <CardHeader
+          avatar={<Avatar sx={{}} aria-label=''></Avatar>}
+          action={
+            <IconButton aria-label='settings'>
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={singleSneaker?.owner.username}
+          subheader='January 25, 2023'
+        />
         <Box>
-          <img src={singleBeer?.image} alt={singleBeer?.name} />
+          <img src={singleSneaker?.cover_image} alt={singleSneaker?.name} />
+        </Box>
+        <CardContent>
+          <Typography variant='body2' color='text.secondary'>
+            {singleSneaker?.brand[0].brand_name}
+          </Typography>
+          <Typography variant='h5' component='p'>
+            {singleSneaker?.model}
+          </Typography>
+          <Typography color='text.secondary'>{singleSneaker?.name}</Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+          <IconButton aria-label='add to favorites'>
+            <FavoriteIcon />
+          </IconButton>
+          <IconButton aria-label='share'>
+            <ShareIcon />
+          </IconButton>
+        </CardActions>
+        <CardContent>
+          <Typography color='text.primary' paragraph gutterBottom>
+            Color:&ensp;{singleSneaker?.colorway}
+          </Typography>
+          <Typography color='text.secondary'>
+            Size UK:&ensp;{singleSneaker?.size}
+          </Typography>
+          <Typography color='text.secondary'>
+            Released:&ensp;{singleSneaker?.release_year}
+          </Typography>
+          <Typography color='text.secondary'>
+            RRP £:&ensp;{singleSneaker?.retail_price}
+          </Typography>
+          <Typography paragraph>
+            Heat 1/2 cup of the broth in a pot until simmering, add saffron and
+            set aside for 10 minutes.
+          </Typography>
+        </CardContent>
+      </Card> */}
+      {/* <Container maxWidth='lg' sx={{ display: 'flex' }}>
+        <Box>
+          <img src={singleSneaker?.cover_image} alt={singleSneaker?.name} />
         </Box>
         <Box>
           <CardContent>
-            <Typography variant='h5' component='p'>
-              {singleBeer?.name}
+            <Typography color='text.secondary' sx={{ fontSize: 18 }}>
+              {singleSneaker?.brand[0].brand_name}
             </Typography>
-            <Typography color='text.secondary'>{singleBeer?.type}</Typography>
-            <Typography color='text.primary' sx={{ fontSize: 18 }} gutterBottom>
-              {singleBeer?.description}
+            <Typography variant='h5' component='p'>
+              {singleSneaker?.model}
             </Typography>
             <Typography color='text.secondary'>
-              {singleBeer?.strength}% ABV
+              {singleSneaker?.name}
             </Typography>
-            <Typography color='text.secondary' sx={{ fontSize: 18 }}>
-              Brewed by: {singleBeer?.brewery?.name}
+            <Typography color='text.primary' sx={{ fontSize: 18 }} gutterBottom>
+              {singleSneaker?.colorway}
             </Typography>
-            {/* <BeerRatings rating={singleBeer?.rating || 0} /> */}
+            <Typography color='text.secondary'>
+              {singleSneaker?.size}
+            </Typography>
+            <Typography color='text.secondary'>
+              {singleSneaker?.release_year}
+            </Typography>
+            <Typography color='text.secondary'>
+              {singleSneaker?.retail_price}
+            </Typography>
+            <Typography color='text.secondary'>
+              {singleSneaker?.owner.username}
+            </Typography>
           </CardContent>
-          <CardActions>
-            {/* {isLoggedIn && !userHasReviewed && ( */}
-            <Link to={`/crafty-beers/${singleBeer?._id}/review`}>
-              <Button size='small'>REVIEW THIS BEER</Button>
-            </Link>
-            {/* )} */}
-            {/* <Button size='small' onClick={goToIndex}>
-              BACK TO THE PARTY
-            </Button> */}
-          </CardActions>
         </Box>
-      </Container>
-      {!!singleBeer?.reviews.length && (
-        <Container maxWidth='lg'>
-          <Box>
-            {/* {singleBeer?.reviews.map((review) => (
-              <ReviewCard
-                key={review._id}
-                text={review.text}
-                reviewer={review.reviewer}
-                beerId={id}
-                reviewId={review._id}
-                rating={review.rating}
-                setIsUpdated={setIsUpdated}
-              />
-            ))} */}
-          </Box>
-        </Container>
-      )}
+      </Container> */}
     </>
   );
 }

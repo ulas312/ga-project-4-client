@@ -21,6 +21,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import HomeIcon from '@mui/icons-material/Home';
 
@@ -286,6 +287,15 @@ export default function Navbar() {
                 color='inherit'
               >
                 <ExploreIcon />
+              </IconButton>
+            </Link>
+            <Link to='/sneakerModels/upload' color='inherit'>
+              <IconButton
+                size='large'
+                aria-label='show 4 new mails'
+                color='inherit'
+              >
+                <AddAPhotoIcon />
               </IconButton>
             </Link>
             <IconButton
