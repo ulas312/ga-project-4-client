@@ -100,7 +100,7 @@ const Register = () => {
         md={7}
         sx={{
           backgroundImage:
-            'url(https://i.postimg.cc/6QMkKLFr/register-hero.png)',
+            'url(https://i.postimg.cc/8cpFvG3w/login-register-hero.png)',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
           backgroundPosition: 'center',

@@ -15,6 +15,7 @@ import {
   Menu,
 } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
+import ExploreIcon from '@mui/icons-material/Explore';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
@@ -254,20 +255,18 @@ export default function Navbar() {
             <MenuIcon />
           </IconButton> */}
 
-          {/* <Typography variant='h6' component='div'> */}
-          <Link href='/'>
+          <Link to='/'>
             <Box
               component='img'
               sx={{
                 mt: 2,
-                height: 80,
+                height: 90,
                 width: 200,
               }}
               alt='Snkr Closet logo.'
               src={Logo}
             />
           </Link>
-          {/* </Typography> */}
 
           <Search>
             <SearchIconWrapper>
@@ -280,6 +279,15 @@ export default function Navbar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+            <Link to='/sneakerModels' color='inherit'>
+              <IconButton
+                size='large'
+                aria-label='show 4 new mails'
+                color='inherit'
+              >
+                <ExploreIcon />
+              </IconButton>
+            </Link>
             <IconButton
               size='large'
               aria-label='show 4 new mails'
