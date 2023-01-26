@@ -26,6 +26,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import HomeIcon from '@mui/icons-material/Home';
 
 import Logo from '../assets/snkr-closet-logo.png';
+import '../styles/Navbar.scss';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -286,7 +287,7 @@ export default function Navbar() {
                 aria-label='show 4 new mails'
                 color='inherit'
               >
-                <ExploreIcon />
+                <ExploreIcon className='icon' />
               </IconButton>
             </Link>
             <Link to='/sneakerModels/upload' color='inherit'>
@@ -295,7 +296,7 @@ export default function Navbar() {
                 aria-label='show 4 new mails'
                 color='inherit'
               >
-                <AddAPhotoIcon />
+                <AddAPhotoIcon className='icon' />
               </IconButton>
             </Link>
             <IconButton

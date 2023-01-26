@@ -4,21 +4,30 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import ListItemText from '@mui/material/ListItemText';
 import ListItem from '@mui/material/ListItem';
+import Grid from '@mui/material/Grid';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
 import List from '@mui/material/List';
+import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import { Card, CardContent, CardMedia, CardActionArea } from '@mui/material';
+
+// import ReviewCard from '../common/ReviewCard';
+// import UploadedPicture from './UploadedPicture';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction='up' ref={ref} {...props} />;
 });
 
-export default function SneakerCard({ name, image, model, id, brand }) {
+export default function SneakerCard({
+  name,
+  image,
+  model,
+  id,
+  brand,
+  comments,
+}) {
   const navigate = useNavigate();
   const navigateToSneaker = () => navigate(`/sneakerModels/${id}`);
 
@@ -32,16 +41,55 @@ export default function SneakerCard({ name, image, model, id, brand }) {
     setOpen(false);
   };
 
+  // console.log({ name, image, model, id, brand, comments });
+
   return (
-    <Card sx={{ maxWidth: 345, height: 450 }}>
+    <Card sx={{ maxWidth: 450, height: 450 }}>
       <CardActionArea onClick={navigateToSneaker}>
-        <CardMedia
+        {/* <ImageList
+          className='feed-images'
+          sx={{ width: '100vw', height: '100vh' }}
+          cols={3}
+          rowHeight={164}
+        >
+          <ImageListItem>
+            <CardMedia
+              className='feed-images'
+              component='img'
+              image={image}
+              alt={name}
+              // sx={{ maxHeight: 345, objectFit: 'contain' }}
+            />
+          </ImageListItem>
+        </ImageList> */}
+
+        <ImageList
+          sx={{ width: '100vw', height: '100vh', objectFit: 'contain' }}
+          cols={3}
+          // rowHeight={450}
+        >
+          <ImageListItem>
+            <CardMedia
+              className='feed-images'
+              component='img'
+              image={image}
+              alt={name}
+              sx={{}}
+            />
+          </ImageListItem>
+        </ImageList>
+
+        {/* <CardMedia
           component='img'
           image={image}
           alt={name}
           sx={{ maxHeight: 345, objectFit: 'contain' }}
-        />
-        <CardContent>
+        > */}
+        {/* <UploadedPicture
+            cloudinaryImageId={image.cloudinaryImageId}
+          ></UploadedPicture> */}
+        {/* </CardMedia> */}
+        {/* <CardContent>
           <Typography gutterBottom variant='h5' component='div'>
             {name}
           </Typography>
@@ -51,7 +99,20 @@ export default function SneakerCard({ name, image, model, id, brand }) {
           <Typography variant='body2' color='text.secondary'>
             {model}
           </Typography>
-        </CardContent>
+        </CardContent> */}
+        {/* <CardContent>
+          <Box>
+            <ReviewCard
+              key={comments._id}
+              text={comments.text}
+              reviewer={comments.reviewer}
+              beerId={id}
+              reviewId={comments._id}
+              rating={comments.rating}
+              // setIsUpdated={setIsUpdated}
+            />
+          </Box>
+        </CardContent> */}
       </CardActionArea>
     </Card>
   );

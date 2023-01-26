@@ -5,12 +5,14 @@ import '../styles/Home.scss';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 
 import { TypeAnimation } from 'react-type-animation';
 
 const Home = () => (
   <Grid className='Home' container component='main' sx={{ height: '100vh' }}>
+    <CssBaseline />
     <Typography
       align='center'
       component='div'
@@ -92,7 +94,7 @@ const Home = () => (
           zIndex: 'modal',
         }}
       >
-        <img src={HomeImage} alt='man lifting weights' />
+        <img className='home-hero' src={HomeImage} alt='sneaker collection' />
       </Box>
     </Typography>
   </Grid>

@@ -3,31 +3,25 @@ import { API } from '../lib/api';
 
 import SneakerCard from './common/SneakerCard';
 import PopupCard from './common/PopupCard';
+import '../styles/Feed.scss';
 
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, CssBaseline } from '@mui/material';
 
 export default function Feed({ searchedSneakers }) {
   const [sneakers, setSneakers] = useState([]);
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const { data } = await API.GET(API.ENDPOINTS.allModels);
-        console.log(data);
+    API.GET(API.ENDPOINTS.allModels)
+      .then(({ data }) => {
         setSneakers(data);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    getData();
+      })
+      .catch((e) => console.error(e));
   }, []);
-
-  // useEffect(() => {
-  //   setSneakers(searchedSneakers);
-  // }, [searchedSneakers]);
 
   return (
     <Container maxWidth='lg'>
+      <CssBaseline />
+
       <PopupCard />
       <Grid container spacing={2}>
         {sneakers?.map((sneaker) => (
